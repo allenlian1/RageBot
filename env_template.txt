@@ -1,0 +1,11 @@
+# RageBot Configuration
+# Copy this file to .env and add your actual API key
+
+# Your Gemini API key from Google AI Studio
+# Get it from: https://aistudio.google.com/
+GEMINI_API_KEY=your_api_key_here
+
+# Optional: Audio settings (these can be overridden in the app)
+# CHUNK_DURATION=2.0
+# MODEL_SIZE=base
+# SAMPLE_RATE=16000
