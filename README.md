@@ -1,193 +1,180 @@
 # 🎤 RageBot - Live Conversation Assistant
 
-RageBot is a PySide6-based desktop application that provides real-time speech transcription and AI-powered conversation suggestions using Google's Gemini API. Perfect for generating engaging responses during live conversations!
+A modern PySide6 desktop application that provides real-time audio transcription and AI-powered conversation suggestions using advanced ragebaiting tactics and logical fallacies.
 
-## ✨ Features
+## Features
 
-- **🎤 Live Speech Transcription**: Real-time audio recording and transcription using Whisper
-- **🤖 AI-Powered Suggestions**: Generate conversation responses using Google's Gemini API
-- **🎨 Modern GUI**: Clean, intuitive PySide6 interface with recording animations
-- **📝 Conversation History**: Keep track of your conversation flow
-- **⚡ Real-time Processing**: Non-blocking UI with threaded audio processing
+### 🎤 Live Audio Recording & Transcription
+- Real-time audio capture from microphone
+- Instant transcription using OpenAI Whisper
+- Continuous conversation tracking
 
-## 🚀 Quick Start
+### 🤖 AI-Powered Ragebaiting
+- Advanced psychological manipulation techniques
+- Logical fallacies integration (straw man, ad hominem, appeal to authority, etc.)
+- Emotional engagement optimization
+- Controversial response generation
 
-### 1. Install Dependencies
+### 🔊 Text-to-Speech (TTS)
+- Automatic speech synthesis for AI responses
+- Adjustable speech rate (100-300 WPM)
+- Male voice preference for authoritative tone
+- Manual "Speak Response" button
+- TTS enable/disable toggle
 
-```bash
-pip install -r requirements.txt
+### 🎨 Modern UI Design
+- Gradient backgrounds and modern styling
+- Card-based layout with rounded corners
+- Responsive design with proper spacing
+- Professional color scheme
+- Animated recording indicator
+- Progress bars and status indicators
+
+## Installation
+
+### Prerequisites
+- Python 3.8 or higher
+- Microphone access
+- Internet connection for API calls
+
+### Setup
+
+1. **Clone the repository:**
+   ```bash
+   git clone <repository-url>
+   cd RageBot
+   ```
+
+2. **Install dependencies:**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. **Create environment file:**
+   ```bash
+   cp env_template.txt .env
+   ```
+
+4. **Add your Gemini API key:**
+   Edit `.env` and add your Google Gemini API key:
+   ```
+   GEMINI_API_KEY=your_api_key_here
+   ```
+
+## Usage
+
+### Quick Start
+1. Run the application:
+   ```bash
+   python ragebot_pyside.py
+   ```
+
+2. Configure TTS settings (optional):
+   - Toggle TTS on/off with the checkbox
+   - Adjust speech rate using the slider
+   - Use "Speak Response" button for manual playback
+
+3. Start recording:
+   - Click "🎤 Start Recording" to begin
+   - Speak into your microphone
+   - View real-time transcriptions
+   - Receive AI-generated responses
+
+4. Manage conversation:
+   - View full conversation history
+   - Clear history with "🗑️ Clear History"
+   - Stop recording anytime
+
+### TTS Controls
+- **Enable/Disable**: Checkbox to turn TTS on/off
+- **Speech Rate**: Slider to adjust words per minute (100-300 WPM)
+- **Manual Playback**: "🔊 Speak Response" button to replay current suggestion
+
+## Technical Details
+
+### Architecture
+- **PySide6**: Modern Qt-based UI framework
+- **OpenAI Whisper**: Real-time speech-to-text
+- **Google Gemini API**: AI response generation
+- **pyttsx3**: Cross-platform text-to-speech
+- **Threading**: Non-blocking audio processing
+
+### Ragebaiting Techniques
+The AI uses advanced psychological manipulation including:
+- **Logical Fallacies**: Straw man, ad hominem, appeal to authority, false dilemma
+- **Psychological Triggers**: Condescending language, tribal instincts, false urgency
+- **Emotional Manipulation**: Inflammatory language, loaded terms, crisis creation
+
+### Voice Settings
+- **Default Rate**: 180 WPM (adjustable 100-300)
+- **Volume**: 90% (fixed)
+- **Voice Preference**: Male voice for authoritative tone
+- **Cross-platform**: Works on Windows, macOS, and Linux
+
+## File Structure
+```
+RageBot/
+├── ragebot_pyside.py      # Main application
+├── live_transcription.py  # Audio transcription module
+├── requirements.txt       # Python dependencies
+├── .env                  # API key configuration
+├── env_template.txt      # Environment template
+├── run_ragebot.bat       # Windows launcher
+├── run_ragebot.sh        # Linux/macOS launcher
+└── README.md            # This file
 ```
 
-### 2. Get a Gemini API Key
-
-1. Visit [Google AI Studio](https://aistudio.google.com/)
-2. Sign in with your Google account
-3. Click "Get API key"
-4. Create a new API key
-5. Copy the API key
-
-### 3. Setup Environment
-
-#### Option A: Use the Setup Script (Recommended)
-```bash
-python setup_environment.py
-```
-
-#### Option B: Manual Setup
-
-Create a `.env` file in the project directory:
-```bash
-# Create .env file
-echo "GEMINI_API_KEY=your_api_key_here" > .env
-```
-
-Or copy the template:
-```bash
-cp env_template.txt .env
-# Then edit .env and add your actual API key
-```
-
-### 4. Run the Application
-
-```bash
-python ragebot_pyside.py
-```
-
-## 🎯 How to Use
-
-1. **Start Recording**: Click the "🎤 Start Recording" button
-2. **Speak**: The app will transcribe your speech in real-time
-3. **Get Suggestions**: AI will generate conversation suggestions based on the context
-4. **Continue Conversation**: Use the suggestions to keep the conversation engaging
-5. **Stop Recording**: Click "⏹️ Stop Recording" when done
-
-## 📋 Requirements
-
-- Python 3.8+
-- PySide6 (Qt6 bindings for Python)
-- faster-whisper
-- pyaudio
-- requests
-- numpy
-- torch
-- python-dotenv
-
-## 🔧 Configuration
-
-### API Key Setup
-The application uses a `.env` file for configuration:
-
-```bash
-# .env file
-GEMINI_API_KEY=your_actual_api_key_here
-CHUNK_DURATION=2.0
-MODEL_SIZE=base
-SAMPLE_RATE=16000
-```
-
-### Audio Settings
-- **Sample Rate**: 16kHz (default)
-- **Chunk Duration**: 2 seconds (configurable)
-- **Model Size**: "base" (options: tiny, base, small, medium, large)
-
-### AI Settings
-- **Model**: Gemini 2.0 Flash
-- **Context Window**: Last 5 conversation exchanges
-- **Response Style**: Engaging and provocative
-
-## 🛠️ Troubleshooting
+## Troubleshooting
 
 ### Common Issues
 
-1. **"No module named 'pyaudio'"**
-   ```bash
-   # Windows
-   pip install pipwin
-   pipwin install pyaudio
-   
-   # Linux
-   sudo apt-get install portaudio19-dev
-   pip install pyaudio
-   
-   # macOS
-   brew install portaudio
-   pip install pyaudio
-   ```
+**TTS not working:**
+- Ensure pyttsx3 is installed: `pip install pyttsx3`
+- Check system audio settings
+- Try different speech rates
 
-2. **".env file not found"**
-   - Run `python setup_environment.py` to create the .env file
-   - Or manually create a .env file with your API key
+**Audio recording issues:**
+- Verify microphone permissions
+- Check PyAudio installation
+- Ensure microphone is not in use by other applications
 
-3. **"GEMINI_API_KEY not found in .env file"**
-   - Edit the .env file and add your API key
-   - Make sure the format is: `GEMINI_API_KEY=your_key_here`
+**API errors:**
+- Verify Gemini API key in `.env` file
+- Check internet connection
+- Ensure API key has proper permissions
 
-4. **Audio recording issues**
-   - Check microphone permissions
-   - Ensure microphone is not being used by other applications
-   - Try different audio input devices
+### Platform-Specific Notes
 
-5. **GUI issues on Windows**
-   - PySide6 is used instead of PyQt6 for better Windows compatibility
-   - If you still have issues, try running: `pip install --user PySide6`
+**Windows:**
+- TTS uses Windows SAPI voices
+- PyAudio may require Visual C++ redistributables
 
-### Verification
+**macOS:**
+- TTS uses macOS system voices
+- May need to grant microphone permissions
 
-Run the verification script to check your setup:
-```bash
-python test_app.py
-```
+**Linux:**
+- TTS uses espeak or festival
+- May need to install additional audio packages
 
-## 📁 Project Structure
+## Development
 
-```
-RageBot/
-├── ragebot_pyside.py       # Main PySide6 application
-├── live_transcription.py   # Speech transcription engine
-├── setup_environment.py    # Environment setup script
-├── test_app.py            # Component testing script
-├── start_ragebot.py       # Smart launcher
-├── env_template.txt       # .env file template
-├── requirements.txt       # Python dependencies
-├── run_ragebot.bat       # Windows launcher
-├── run_ragebot.sh        # Unix launcher
-└── README.md             # This file
-```
-
-## 🔒 Privacy & Security
-
-- **Local Processing**: Audio transcription happens locally using Whisper
-- **API Key Security**: API key is stored in local `.env` file (never commit to version control)
-- **Data Privacy**: Conversation data is not stored permanently
-- **Network Usage**: Only API calls to Gemini are sent over the network
-
-## 🤝 Contributing
-
+### Adding New Features
 1. Fork the repository
 2. Create a feature branch
-3. Make your changes
+3. Implement changes
 4. Test thoroughly
-5. Submit a pull request
+5. Submit pull request
 
-## 📄 License
+### Customization
+- Modify `ragebaiting_prompt` in `GeminiAPI.generate_response()` for different AI behavior
+- Adjust TTS settings in `TextToSpeech.setup_voice()`
+- Customize UI styling in `setup_ui()` method
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+## License
 
-## 🙏 Acknowledgments
+This project is for educational and research purposes. Use responsibly and ethically.
 
-- [Google AI Studio](https://aistudio.google.com/) for Gemini API
-- [OpenAI Whisper](https://github.com/openai/whisper) for speech recognition
-- [PySide6](https://doc.qt.io/qtforpython/) for the GUI framework
+## Disclaimer
 
-## 🆘 Support
-
-If you encounter any issues:
-
-1. Check the troubleshooting section above
-2. Verify your setup with `python test_app.py`
-3. Check the console output for error messages
-4. Open an issue on GitHub with detailed error information
-
----
-
-**Happy RageBotting! 🎤🤖** 
+This application is designed for educational purposes to demonstrate AI conversation techniques. The ragebaiting features are intended for research and understanding of online communication patterns. Use responsibly and consider the ethical implications of AI-generated content.
