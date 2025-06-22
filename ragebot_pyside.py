@@ -285,6 +285,7 @@ class RageBotApp(QMainWindow):
         self.tts = TextToSpeech()
         self.conversation_history = []
         self.is_recording = False
+        self.is_ai_responding = False
         self.tts_enabled = True
         
         # Load API key
@@ -719,6 +720,7 @@ class RageBotApp(QMainWindow):
             
             # Update UI
             self.is_recording = True
+            self.is_ai_responding = False
             self.record_button.setText("⏹️ Stop Recording")
             self.record_button.setStyleSheet("""
                 QPushButton {
@@ -739,19 +741,9 @@ class RageBotApp(QMainWindow):
                     transform: translateY(-2px);
                 }
             """)
-            self.recording_indicator.setText("🎤 Recording...")
-            self.recording_indicator.setStyleSheet("""
-                QLabel {
-                    font-size: 16px;
-                    font-weight: 600;
-                    color: white;
-                    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
-                        stop:0 #e74c3c, stop:1 #c0392b);
-                    padding: 15px 25px;
-                    border-radius: 10px;
-                    border: 2px solid #c0392b;
-                }
-            """)
+            
+            # Update recording UI
+            self.update_recording_ui()
             
             # Start animation
             self.animation_timer.start(50)  # Update every 50ms for smoother animation
@@ -776,6 +768,7 @@ class RageBotApp(QMainWindow):
                 
             # Update UI
             self.is_recording = False
+            self.is_ai_responding = False
             self.record_button.setText("🎤 Start Recording")
             self.record_button.setStyleSheet("""
                 QPushButton {
@@ -809,6 +802,9 @@ class RageBotApp(QMainWindow):
                     border: 2px solid #3498db;
                 }
             """)
+            
+            # Update recording UI
+            self.update_recording_ui()
             
             # Stop animation
             self.animation_timer.stop()
@@ -845,6 +841,10 @@ class RageBotApp(QMainWindow):
         if not self.gemini_api or not self.conversation_history:
             return
             
+        # Pause recording while AI is responding
+        self.is_ai_responding = True
+        self.update_recording_ui()
+            
         # Show progress
         self.progress_bar.setVisible(True)
         self.progress_bar.setRange(0, 0)  # Indeterminate progress
@@ -878,7 +878,20 @@ class RageBotApp(QMainWindow):
         
         # Speak the suggestion if TTS is enabled
         if self.tts_enabled and suggestion and not suggestion.startswith("Error:"):
-            self.tts.speak(suggestion)
+            # Speak in a separate thread to avoid blocking UI
+            def speak_suggestion():
+                self.tts.speak(suggestion)
+                # Resume recording after speaking
+                self.is_ai_responding = False
+                self.update_recording_ui()
+            
+            speak_thread = threading.Thread(target=speak_suggestion)
+            speak_thread.daemon = True
+            speak_thread.start()
+        else:
+            # Resume recording immediately if no TTS
+            self.is_ai_responding = False
+            self.update_recording_ui()
         
     def on_error(self, error_message):
         """Handle errors"""
@@ -896,7 +909,7 @@ class RageBotApp(QMainWindow):
         self.waveform_frame = (self.waveform_frame + 1) % 20
         
         # Animate waveform bars
-        if self.is_recording:
+        if self.is_recording and not self.is_ai_responding:
             self.animate_waveform()
         else:
             self.reset_waveform()
@@ -936,6 +949,54 @@ class RageBotApp(QMainWindow):
                 QLabel {
                     background-color: #3498db;
                     border-radius: 4px;
+                }
+            """)
+        
+    def update_recording_ui(self):
+        """Update UI based on recording and AI response state"""
+        if self.is_recording and not self.is_ai_responding:
+            # Recording normally
+            self.recording_indicator.setText("🎤 Recording...")
+            self.recording_indicator.setStyleSheet("""
+                QLabel {
+                    font-size: 16px;
+                    font-weight: 600;
+                    color: white;
+                    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+                        stop:0 #e74c3c, stop:1 #c0392b);
+                    padding: 15px 25px;
+                    border-radius: 10px;
+                    border: 2px solid #c0392b;
+                }
+            """)
+        elif self.is_recording and self.is_ai_responding:
+            # Recording but AI is responding
+            self.recording_indicator.setText("⏸️ Paused")
+            self.recording_indicator.setStyleSheet("""
+                QLabel {
+                    font-size: 16px;
+                    font-weight: 600;
+                    color: white;
+                    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+                        stop:0 #f39c12, stop:1 #e67e22);
+                    padding: 15px 25px;
+                    border-radius: 10px;
+                    border: 2px solid #e67e22;
+                }
+            """)
+        else:
+            # Not recording
+            self.recording_indicator.setText("🎤 Ready")
+            self.recording_indicator.setStyleSheet("""
+                QLabel {
+                    font-size: 16px;
+                    font-weight: 600;
+                    color: #ffffff;
+                    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+                        stop:0 #2c3e50, stop:1 #34495e);
+                    padding: 15px 25px;
+                    border-radius: 10px;
+                    border: 2px solid #3498db;
                 }
             """)
         
