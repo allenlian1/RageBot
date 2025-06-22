@@ -4,10 +4,11 @@ import json
 import requests
 import threading
 import time
-from PyQt6.QtWidgets import (QApplication, QMainWindow, QVBoxLayout, QHBoxLayout, 
+from dotenv import load_dotenv
+from PySide6.QtWidgets import (QApplication, QMainWindow, QVBoxLayout, QHBoxLayout, 
                              QPushButton, QTextEdit, QLabel, QWidget, QProgressBar)
-from PyQt6.QtCore import QThread, pyqtSignal, QTimer, Qt
-from PyQt6.QtGui import QMovie, QPixmap
+from PySide6.QtCore import QThread, Signal, QTimer, Qt
+from PySide6.QtGui import QMovie, QPixmap
 from live_transcription import LiveTranscription
 
 class GeminiAPI:
@@ -56,8 +57,8 @@ class GeminiAPI:
             return f"Error: {str(e)}"
 
 class TranscriptionThread(QThread):
-    transcription_received = pyqtSignal(str)
-    error_occurred = pyqtSignal(str)
+    transcription_received = Signal(str)
+    error_occurred = Signal(str)
     
     def __init__(self, transcriber):
         super().__init__()
@@ -79,7 +80,7 @@ class TranscriptionThread(QThread):
         self.transcriber.stop_transcription()
 
 class AudioProcessingThread(QThread):
-    transcription_ready = pyqtSignal(str)
+    transcription_ready = Signal(str)
     
     def __init__(self, transcriber):
         super().__init__()
@@ -129,14 +130,19 @@ class RageBotApp(QMainWindow):
         self.animation_frame = 0
         
     def load_api_key(self):
-        """Load Gemini API key from environment variable"""
+        """Load Gemini API key from .env file"""
+        load_dotenv()
         api_key = os.getenv('GEMINI_API_KEY')
-        if not api_key:
-            print("Warning: GEMINI_API_KEY environment variable not found!")
-            print("Please set your Gemini API key as an environment variable.")
+        if not api_key or api_key == 'your_api_key_here':
+            print("Warning: GEMINI_API_KEY not found or not configured!")
+            print("Please:")
+            print("1. Copy env_template.txt to .env")
+            print("2. Edit .env and add your Gemini API key")
+            print("3. Get your API key from: https://aistudio.google.com/")
             return
             
         self.gemini_api = GeminiAPI(api_key)
+        print("Gemini API key loaded successfully!")
         
     def setup_ui(self):
         """Setup the user interface"""
@@ -387,7 +393,7 @@ class RageBotApp(QMainWindow):
                 self.suggestion_received.emit(f"Error generating suggestion: {str(e)}")
                 
         # Create signal for suggestion received
-        self.suggestion_received = pyqtSignal(str)
+        self.suggestion_received = Signal(str)
         self.suggestion_received.connect(self.on_suggestion_received)
         
         # Start suggestion thread
